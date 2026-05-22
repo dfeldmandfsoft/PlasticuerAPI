@@ -15,23 +15,17 @@ namespace PlasticuerRestAPI.DataProviders
 
         public async Task<IEnumerable<CondicionIva>> GetCondicionesIva()
         {
-            using (_dbConnection)
-            {
-                return await _dbConnection.QueryAsync<CondicionIva>(
-                    "exec API.spCondicionesIva",
-                    commandType: CommandType.Text);
-            }
+            return await _dbConnection.QueryAsync<CondicionIva>(
+                "API.spCondicionesIva",
+                commandType: CommandType.StoredProcedure);
         }
 
         public async Task<CondicionIva?> GetCondicionIva(int idCondicionIva)
         {
-            using (_dbConnection)
-            {
-                return await _dbConnection.QueryFirstOrDefaultAsync<CondicionIva>(
-                    "exec API.spCondicionIva @idCondicionIva",
-                    new { idCondicionIva },
-                    commandType: CommandType.Text);
-            }
+            return await _dbConnection.QueryFirstOrDefaultAsync<CondicionIva>(
+                "API.spCondicionIva",
+                new { idCondicionIva },
+                commandType: CommandType.StoredProcedure);
         }
     }
 }

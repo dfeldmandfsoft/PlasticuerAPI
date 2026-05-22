@@ -16,7 +16,7 @@ builder.Host.UseSerilog();
 var appSettings = builder.Configuration.GetSection("AppSettings").Get<AppSettings>()!;
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 
-builder.Services.AddTransient<IDbConnection>(_ => new SqlConnection(appSettings.ConnectionString));
+builder.Services.AddScoped<IDbConnection>(_ => new SqlConnection(appSettings.ConnectionString));
 builder.Services.AddTransient<IArticuloDataProvider, ArticuloDataProvider>();
 builder.Services.AddTransient<IClienteDataProvider, ClienteDataProvider>();
 builder.Services.AddTransient<IVendedorDataProvider, VendedorDataProvider>();
@@ -24,6 +24,7 @@ builder.Services.AddTransient<IPedidoDataProvider, PedidoDataProvider>();
 builder.Services.AddTransient<IProvinciaDataProvider, ProvinciaDataProvider>();
 builder.Services.AddTransient<ILocalidadDataProvider, LocalidadDataProvider>();
 builder.Services.AddTransient<ICondicionIvaDataProvider, CondicionIvaDataProvider>();
+builder.Services.AddTransient<IStockDataProvider, StockDataProvider>();
 
 builder.Services.AddHttpClient();
 builder.Services.AddCors();
@@ -50,6 +51,7 @@ app.UseSwaggerUI(c =>
     c.RoutePrefix = string.Empty;
 });
 
+app.UseSerilogRequestLogging();
 app.UseRouting();
 app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 app.MapControllers();

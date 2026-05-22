@@ -15,35 +15,28 @@ namespace PlasticuerRestAPI.DataProviders
 
         public async Task<IEnumerable<Cliente>> GetClientes()
         {
-            using (_dbConnection)
-            {
-                return await _dbConnection.QueryAsync<Cliente>(
-                    "exec API.spClientes",
-                    commandType: CommandType.Text);
-            }
+            return await _dbConnection.QueryAsync<Cliente>(
+                "API.spClientes",
+                commandType: CommandType.StoredProcedure);
         }
 
         public async Task<Cliente?> PostCliente(NuevoClienteRequest cliente)
         {
-            using (_dbConnection)
-            {
-                return await _dbConnection.QueryFirstOrDefaultAsync<Cliente>(
-                    @"exec API.spAltaCliente @Nombre, @Direccion, @IdProvincia, @IdLocalidad,
-                                             @CPA, @Telefono, @Mail, @IdCondicionIva, @CuitDni",
-                    new
-                    {
-                        cliente.Nombre,
-                        cliente.Direccion,
-                        cliente.IdProvincia,
-                        cliente.IdLocalidad,
-                        cliente.CPA,
-                        cliente.Telefono,
-                        cliente.Mail,
-                        cliente.IdCondicionIva,
-                        cliente.CuitDni
-                    },
-                    commandType: CommandType.Text);
-            }
+            return await _dbConnection.QueryFirstOrDefaultAsync<Cliente>(
+                "API.spAltaCliente",
+                new
+                {
+                    cliente.Nombre,
+                    cliente.Direccion,
+                    cliente.IdProvincia,
+                    cliente.IdLocalidad,
+                    cliente.CPA,
+                    cliente.Telefono,
+                    cliente.Mail,
+                    cliente.IdCondicionIva,
+                    cliente.CuitDni
+                },
+                commandType: CommandType.StoredProcedure);
         }
     }
 }

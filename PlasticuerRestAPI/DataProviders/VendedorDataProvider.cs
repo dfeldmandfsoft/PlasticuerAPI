@@ -17,16 +17,9 @@ namespace PlasticuerRestAPI.DataProviders
 
         public async Task<IEnumerable<Vendedor>> GetVendedores()
         {
-            using (_dbConnection)
-            {
-                string sql = "exec API.spVendedores";
-
-                return await _dbConnection.QueryAsync<Vendedor>(
-                    sql,
-                    null,
-                    commandType: CommandType.Text);
-            }
-
+            return await _dbConnection.QueryAsync<Vendedor>(
+                "API.spVendedores",
+                commandType: CommandType.StoredProcedure);
         }
     }
 }

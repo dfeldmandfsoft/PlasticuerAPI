@@ -19,15 +19,10 @@ namespace PlasticuerRestAPI.DataProviders
         {
             string mipedido = JsonSerializer.Serialize(pedido);
 
-            using (_dbConnection)
-            {
-                string sql = "exec API.spGuardarPedido @stringpedido";
-
-                await _dbConnection.ExecuteAsync(
-                    sql,
-                    new { stringpedido = mipedido },
-                    commandType: CommandType.Text);
-            }
+            await _dbConnection.ExecuteAsync(
+                "API.spGuardarPedido",
+                new { stringpedido = mipedido },
+                commandType: CommandType.StoredProcedure);
         }
     }
 }

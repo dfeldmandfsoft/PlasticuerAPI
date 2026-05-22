@@ -17,16 +17,9 @@ namespace PlasticuerRestAPI.DataProviders
 
         public async Task<IEnumerable<Articulo>> GetArticulos()
         {
-            using (_dbConnection)
-            {
-                string sql = "exec API.spArticulos";
-
-                return await _dbConnection.QueryAsync<Articulo>(
-                    sql,
-                    null,
-                    commandType: CommandType.Text);
-            }
-
+            return await _dbConnection.QueryAsync<Articulo>(
+                "API.spArticulos",
+                commandType: CommandType.StoredProcedure);
         }
     }
 }

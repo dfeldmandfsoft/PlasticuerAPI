@@ -15,12 +15,9 @@ namespace PlasticuerRestAPI.DataProviders
 
         public async Task<IEnumerable<Provincia>> GetProvincias()
         {
-            using (_dbConnection)
-            {
-                return await _dbConnection.QueryAsync<Provincia>(
-                    "exec API.spProvincias",
-                    commandType: CommandType.Text);
-            }
+            return await _dbConnection.QueryAsync<Provincia>(
+                "API.spProvincias",
+                commandType: CommandType.StoredProcedure);
         }
     }
 }

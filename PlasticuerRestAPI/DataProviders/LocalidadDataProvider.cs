@@ -15,13 +15,10 @@ namespace PlasticuerRestAPI.DataProviders
 
         public async Task<IEnumerable<Localidad>> GetLocalidades(int idProvincia)
         {
-            using (_dbConnection)
-            {
-                return await _dbConnection.QueryAsync<Localidad>(
-                    "exec API.spLocalidades @idProvincia",
-                    new { idProvincia },
-                    commandType: CommandType.Text);
-            }
+            return await _dbConnection.QueryAsync<Localidad>(
+                "API.spLocalidades",
+                new { idProvincia },
+                commandType: CommandType.StoredProcedure);
         }
     }
 }
